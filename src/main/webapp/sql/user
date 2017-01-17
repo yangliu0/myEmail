@@ -1,0 +1,12 @@
+USE mail;
+
+DROP TABLE IF EXISTS user;
+
+CREATE TABLE user(
+id INT NOT NULL AUTO_INCREMENT
+,username VARCHAR(16)             /*用户名*/
+,password VARCHAR(16)             /*密码*/
+,nickname VARCHAR(16)             /*昵称*/
+,age TINYINT                        /*年龄*/
+,PRIMARY KEY(id)
+);

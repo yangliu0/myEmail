@@ -1,0 +1,14 @@
+@CHARSET "UTF-8";
+*{
+    margin:0;
+    padding:0;
+}
+
+.myOverFlow{
+    height:100%;
+    width:100%;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    word-break:keep-all;
+    white-space:nowrap;
+}

@@ -1,0 +1,14 @@
+USE mail;
+
+DROP TABLE IF EXISTS receivemail;
+
+CREATE TABLE receivemail(
+id INT NOT NULL AUTO_INCREMENT      /*收信箱邮件id*/
+,recipient VARCHAR(64) NOT NULL     /*收信人*/
+,sender VARCHAR(64) NOT NULL        /*发信人*/
+,sendtime VARCHAR(32) NOT NULL      /*发信时间*/
+,subject VARCHAR(64)                  /*主题*/
+,content TEXT                           /*内容*/
+,url VARCHAR(64)                      /*查看详情链接*/
+,PRIMARY KEY(id)
+);

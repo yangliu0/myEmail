@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.liu5599.dao.ReceiveMailMapper" >
+  <resultMap id="BaseResultMap" type="cn.liu5599.pojo.ReceiveMail" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="recipient" property="recipient" jdbcType="VARCHAR" />
+    <result column="sender" property="sender" jdbcType="VARCHAR" />
+    <result column="sendtime" property="sendtime" jdbcType="VARCHAR" />
+    <result column="subject" property="subject" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="cn.liu5599.pojo.ReceiveMail" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, recipient, sender, sendtime, subject, url
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from receivemail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectList" parameterType="java.lang.Integer" resultType="java.util.HashMap">
+    SELECT * FROM receivemail
+    ORDER BY id DESC limit #{index},#{pageSize}
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer">
+    SELECT count(id) FROM receivemail
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from receivemail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.liu5599.pojo.ReceiveMail" >
+    insert into receivemail (id, recipient, sender, 
+      sendtime, subject, url, 
+      content)
+    values (#{id,jdbcType=INTEGER}, #{recipient,jdbcType=VARCHAR}, #{sender,jdbcType=VARCHAR}, 
+      #{sendtime,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.liu5599.pojo.ReceiveMail" >
+    insert into receivemail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="recipient != null" >
+        recipient,
+      </if>
+      <if test="sender != null" >
+        sender,
+      </if>
+      <if test="sendtime != null" >
+        sendtime,
+      </if>
+      <if test="subject != null" >
+        subject,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="recipient != null" >
+        #{recipient,jdbcType=VARCHAR},
+      </if>
+      <if test="sender != null" >
+        #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtime != null" >
+        #{sendtime,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null" >
+        #{subject,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertReceiveMail" parameterType="cn.liu5599.pojo.ReceiveMail" useGeneratedKeys="true" keyProperty="id">
+    insert into receivemail(recipient, sender,sendtime,subject,content)
+    SELECT #{recipient},#{sender},#{sendtime},#{subject},#{content} FROM DUAL
+    WHERE NOT EXISTS (SELECT recipient,sender,sendtime,subject,content FROM receivemail
+    WHERE #{recipient}=recipient AND #{sender}=sender AND #{sendtime}=sendtime AND #{subject}=subject AND #{content}=content)
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.liu5599.pojo.ReceiveMail">
+    update receivemail
+    <set >
+      <if test="recipient != null" >
+        recipient = #{recipient,jdbcType=VARCHAR},
+      </if>
+      <if test="sender != null" >
+        sender = #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtime != null" >
+        sendtime = #{sendtime,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null" >
+        subject = #{subject,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.liu5599.pojo.ReceiveMail" >
+    update receivemail
+    set recipient = #{recipient,jdbcType=VARCHAR},
+      sender = #{sender,jdbcType=VARCHAR},
+      sendtime = #{sendtime,jdbcType=VARCHAR},
+      subject = #{subject,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.liu5599.pojo.ReceiveMail" >
+    update receivemail
+    set recipient = #{recipient,jdbcType=VARCHAR},
+      sender = #{sender,jdbcType=VARCHAR},
+      sendtime = #{sendtime,jdbcType=VARCHAR},
+      subject = #{subject,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
